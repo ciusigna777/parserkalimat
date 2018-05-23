@@ -11,13 +11,13 @@ import org.codehaus.plexus.util.StringUtils;
 import com.carrental.grammar.generatedclass.CarrentalnewBaseVisitor;
 import com.carrental.grammar.generatedclass.CarrentalnewParser;
 import com.carrental.grammar.generatedclass.CarrentalnewVisitor;
+import com.carrental.grammar.generatedclass.CarrentalnewParser.DT_NOUNContext;
 import com.carrental.grammar.generatedclass.CarrentalnewParser.Ifthenelse_1Context;
 import com.carrental.grammar.generatedclass.CarrentalnewParser.Ifthenelse_2Context;
 import com.carrental.grammar.generatedclass.CarrentalnewParser.NounContext;
 import com.carrental.grammar.generatedclass.CarrentalnewParser.Obligasi_1Context;
 import com.carrental.grammar.generatedclass.CarrentalnewParser.Pola_DT_1Context;
 import com.carrental.grammar.generatedclass.CarrentalnewParser.Pola_DT_2Context;
-import com.carrental.grammar.generatedclass.CarrentalnewParser.Pola_DT_3Context;
 import com.carrental.grammar.generatedclass.CarrentalnewParser.Pola_statement_1Context;
 import com.carrental.grammar.generatedclass.CarrentalnewParser.Pola_statement_2Context;
 import com.carrental.grammar.generatedclass.CarrentalnewParser.Pola_statement_3Context;
@@ -280,8 +280,8 @@ public class MyCarrentalnewVisitor extends CarrentalnewBaseVisitor<String> {
 			
 		}
 		
-		//return super.visitPola_statement_2(ctx);
-		return "testing_return";
+		return super.visitPola_statement_2(ctx);
+		//return "testing_return";
 	}
 	
 	@Override
@@ -396,114 +396,65 @@ public class MyCarrentalnewVisitor extends CarrentalnewBaseVisitor<String> {
 		
 		return super.visitPola_DT_1(ctx);
 	}
-	
+	private int angka=0;
 	@Override
 	public String visitPola_DT_2(Pola_DT_2Context ctx) {
 		// TODO Auto-generated method stub
-		
 		//baca kalimat dari depan ke belakang
-		String term0=ctx.noun(0).getText().toString(); // credit card
-		String term1=ctx.noun(1).getText().toString(); // renter(driver)
-		String term2=ctx.noun(2).getText().toString(); // rental
 		
-		if(ctx.verb(0).getText().toString().equalsIgnoreCase("in the name of")){
-			// noun_1 is in the name of noun_2: noun_1 dan noun_2 memiliki atribut name, dan noun_1.name==noun_2.name 
-			String term_0_convertedName="";
-			String term_1_convertedName="";
-			if(specialterm.contains(term0)){
-				term_0_convertedName=handleSpecialterm(term0);
+		if(ctx.verb().getText().toString().equalsIgnoreCase("responsible for")){
+			//credit card that is in the name of the 
+			//renter who is responsible for the rental
+			String keyword=ctx.keyword().getText().toString();
+			String identifier=ctx.identifier().getText().toString();
+			String term_0_converted="";
+			String term_1_converted="";
+			//handle kata benda sebelum "who"
+			if(keyword.equalsIgnoreCase("who")){
+				//kata di belakang "who" sudah pasti kata benda (NOUN)
+				if(identifier.equalsIgnoreCase("is")){
+					String term_0=ctx.dt(0).getChild(ctx.dt(0).getChildCount()-1).getText().toString();
+					if(specialterm.contains(term_0)){
+						term_0_converted=handleSpecialterm(term_0);
+					}
+					else{
+						term_0_converted=getClassName(term_0);
+					}
+					
+				}
+				else{
+					
+				}
+			}
+			//handle kata benda sesudah "responsible for"
+			String term_1=ctx.dt(1).getChild(ctx.dt(1).getChildCount()-1).getText().toString();
+			if(specialterm.contains(term_1)){
+				term_1_converted=handleSpecialterm(term_1);
 			}
 			else{
-				term_0_convertedName=getClassName(term0);
+				
 			}
-			if(specialterm.contains(term1)){
-				term_1_convertedName=handleSpecialterm(term1);
+			
+			for(int i=0;i<ctx.dt().size();i++){
+				System.out.println(ctx.dt(i).getText().toString());
+				
 			}
-			else{
-				term_1_convertedName=getClassName(term1);
-			}
-			DVariables temp = variables.getClassByName(term_1_convertedName);
-			variables.getClassByName(term_0_convertedName).getAttributesByName("name").setCompareTo(temp.getAttributesByName("name").getLabel());
-			variables.getClassByName(term_0_convertedName).getAttributesByName("name").setCompareType("==");
 		}
-		else if(ctx.verb(0).getText().toString().equalsIgnoreCase("<insert another verb concept>")){
-			
+		else if(ctx.verb().getText().toString().equalsIgnoreCase("in the name of")){
+			System.out.println("CHK_2");
+			for(int i=0;i<ctx.dt().size();i++){
+				System.out.println(ctx.dt(i).getText().toString());
+			}
 		}
-		
-		if(ctx.verb(1).getText().toString().equalsIgnoreCase("responsible for")){
-			// noun1 is responsible for noun2 --> noun1 adalah atribut dari noun2. noun2 akan menyimpan noun1 dalam sebuah
-			// variabel yang kemudian akan dibandingkan dengan representasi noun1 yang lain
-			String atrName="";
-			String clsName="";
-			if(specialterm.contains(term2)){ //if rental is special term (NO)
-				clsName=handleSpecialterm(term2);
-			}
-			else{
-				clsName=getClassName(term2);
-
-			}
-			if(specialterm.contains(term1)){ //if renter is special term (YES)
-				atrName=handleSpecialterm(term1);
-			}
-			else{
-				atrName=getFieldName(term1);
-			}
-			
-			
-			int idx=variables.isClassExist(clsName); //Rental
-			variables.dvar.get(idx).setWriteToFile(true);
-			variables.dvar.get(idx).getAttributesByName(atrName).setWriteToFile(true);
-			int idx2=variables.isClassExist(atrName);
-			
-			variables.dvar.get(idx).getAttributesByName(atrName).setCompareTo(variables.dvar.get(idx2).getLabel());
-			variables.dvar.get(idx).getAttributesByName(atrName).setCompareType("==");
-			
-		}
-		else if(ctx.verb(1).getText().toString().equalsIgnoreCase("<insert another verb>")){
-			
-		}
-		
-		
-		
-		//return super.visitPola_DT_2(ctx);
-		return getClassName(term0);
+		return super.visitPola_DT_2(ctx);
+		//return getClassName(term0);
 	}
 	
 	@Override
-	public String visitPola_DT_3(Pola_DT_3Context ctx) {
+	public String visitDT_NOUN(DT_NOUNContext ctx) {
 		// TODO Auto-generated method stub
-		//N0 K i V N1
-		String term_0=ctx.noun(0).getText().toString();
-		String term_1=ctx.noun(1).getText().toString();
-		String term_0_convertedName="";
-		String term_1_convertedName="";
-		if(ctx.verb().getText().toString().equals("responsible for")){
-			/*
-			System.out.println("chk1"+term_0);
-			System.out.println("chk2"+term_1);
-			*/
-			if(specialterm.contains(term_0)){
-				term_0_convertedName = handleSpecialterm(term_0);
-			}
-			else{
-				term_0_convertedName = getClassName(term_0);
-			}
-			if(specialterm.contains(term_1)){
-				term_1_convertedName = handleSpecialterm(term_1);
-			}
-			else{
-				term_1_convertedName = getClassName(term_1);
-			}
-			variables.getClassByName(term_1_convertedName).getAttributesByName(term_0_convertedName).setCompareTo(
-					variables.getClassByName(term_0_convertedName).getLabel());
-		}
-		else if(ctx.verb().getText().toString().equals("<another verb concept>")){
-			
-		}
-		
-		
-		return super.visitPola_DT_3(ctx);
+		System.out.println("CHK_3");
+		return ctx.getText().toString();
 	}
-	
 	
 }

@@ -256,6 +256,19 @@ public interface CarrentalnewListener extends ParseTreeListener {
 	void exitObligasi_1(@NotNull CarrentalnewParser.Obligasi_1Context ctx);
 
 	/**
+	 * Enter a parse tree produced by the {@code DT_NOUN}
+	 * labeled alternative in {@link CarrentalnewParser#dt}.
+	 * @param ctx the parse tree
+	 */
+	void enterDT_NOUN(@NotNull CarrentalnewParser.DT_NOUNContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code DT_NOUN}
+	 * labeled alternative in {@link CarrentalnewParser#dt}.
+	 * @param ctx the parse tree
+	 */
+	void exitDT_NOUN(@NotNull CarrentalnewParser.DT_NOUNContext ctx);
+
+	/**
 	 * Enter a parse tree produced by the {@code pola_DT_1}
 	 * labeled alternative in {@link CarrentalnewParser#dt}.
 	 * @param ctx the parse tree
@@ -267,19 +280,6 @@ public interface CarrentalnewListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPola_DT_1(@NotNull CarrentalnewParser.Pola_DT_1Context ctx);
-
-	/**
-	 * Enter a parse tree produced by the {@code pola_DT_3}
-	 * labeled alternative in {@link CarrentalnewParser#dt}.
-	 * @param ctx the parse tree
-	 */
-	void enterPola_DT_3(@NotNull CarrentalnewParser.Pola_DT_3Context ctx);
-	/**
-	 * Exit a parse tree produced by the {@code pola_DT_3}
-	 * labeled alternative in {@link CarrentalnewParser#dt}.
-	 * @param ctx the parse tree
-	 */
-	void exitPola_DT_3(@NotNull CarrentalnewParser.Pola_DT_3Context ctx);
 
 	/**
 	 * Enter a parse tree produced by the {@code pola_DT_2}

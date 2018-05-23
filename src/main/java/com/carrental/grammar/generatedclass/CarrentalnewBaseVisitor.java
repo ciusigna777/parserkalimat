@@ -186,7 +186,7 @@ public class CarrentalnewBaseVisitor<T> extends AbstractParseTreeVisitor<T> impl
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	 public T visitPola_DT_1(@NotNull CarrentalnewParser.Pola_DT_1Context ctx) { return visitChildren(ctx); }
+	 public T visitDT_NOUN(@NotNull CarrentalnewParser.DT_NOUNContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -194,7 +194,7 @@ public class CarrentalnewBaseVisitor<T> extends AbstractParseTreeVisitor<T> impl
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	 public T visitPola_DT_3(@NotNull CarrentalnewParser.Pola_DT_3Context ctx) { return visitChildren(ctx); }
+	 public T visitPola_DT_1(@NotNull CarrentalnewParser.Pola_DT_1Context ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
