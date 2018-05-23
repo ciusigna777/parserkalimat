@@ -50,10 +50,10 @@ public class App
 			
 			
 			visitor.visit(tree);
-			//visitor.printWrapper();
+			visitor.printWrapper();
 			
 			
-			System.out.println(tree.getText().toString());
+			//System.out.println(tree.getText().toString());
 			//DVariablesWrapper vars = visitor.getVariables();
 			//vars.printAllVariables();
 			//System.out.println(visitor.getCodeResult());

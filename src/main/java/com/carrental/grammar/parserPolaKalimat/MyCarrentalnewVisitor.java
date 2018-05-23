@@ -141,7 +141,7 @@ public class MyCarrentalnewVisitor extends CarrentalnewBaseVisitor<String> {
 	public void printWrapper(){
 		
 		for(int i=0;i<variables.dvar.size();i++){
-			System.out.print(variables.dvar.get(i).className+"(");
+			System.out.print(variables.dvar.get(i).getLabel()+": "+variables.dvar.get(i).className+"(");
 			
 			for(int j=0;j<variables.dvar.get(i).getAttributes().size();j++){
 				DAttributes temp = variables.dvar.get(i).getAttributes().get(j);
@@ -415,10 +415,11 @@ public class MyCarrentalnewVisitor extends CarrentalnewBaseVisitor<String> {
 				if(identifier.equalsIgnoreCase("is")){
 					String term_0=ctx.dt(0).getChild(ctx.dt(0).getChildCount()-1).getText().toString();
 					if(specialterm.contains(term_0)){
+						//renter*************************
 						term_0_converted=handleSpecialterm(term_0);
 					}
 					else{
-						term_0_converted=getClassName(term_0);
+						term_0_converted=getFieldName(term_0);
 					}
 					
 				}
@@ -432,19 +433,43 @@ public class MyCarrentalnewVisitor extends CarrentalnewBaseVisitor<String> {
 				term_1_converted=handleSpecialterm(term_1);
 			}
 			else{
-				
+				term_1_converted=getClassName(term_1);
 			}
 			
-			for(int i=0;i<ctx.dt().size();i++){
-				System.out.println(ctx.dt(i).getText().toString());
-				
-			}
-		}
+			//handle nama atribut dan nama kelas ke dalam wrapper variable
+			int idx = variables.isClassExist(term_1_converted);
+			variables.dvar.get(idx).setWriteToFile(true);
+			variables.dvar.get(idx).getAttributesByName(term_0_converted).setWriteToFile(true);
+			int idx2 = variables.isClassExist(term_0_converted);
+			variables.dvar.get(idx).getAttributesByName(term_0_converted).setCompareTo(variables.dvar.get(idx2).getLabel());
+			variables.dvar.get(idx).getAttributesByName(term_0_converted).setCompareType("==");
+;		}
 		else if(ctx.verb().getText().toString().equalsIgnoreCase("in the name of")){
-			System.out.println("CHK_2");
-			for(int i=0;i<ctx.dt().size();i++){
-				System.out.println(ctx.dt(i).getText().toString());
+			//System.out.println("CHK_2");
+			//credit card that is in the name of the renter
+			//noun_1 is in the name of noun_2: noun_1 dan noun_2 memiliki atribut name, dan noun_1.name==noun_2.name 
+			String term_0_converted="";
+			String term_1_converted="";
+			
+			String term_0=ctx.dt(0).getChild(ctx.dt(0).getChildCount()-1).getText().toString();
+			String term_1=ctx.dt(1).getChild(0).getText().toString();
+			
+			if(specialterm.contains(term_0)){
+				term_0_converted=handleSpecialterm(term_0);
 			}
+			else{
+				term_0_converted=getClassName(term_0);
+			}
+			if(specialterm.contains(term_1)){
+				term_1_converted=handleSpecialterm(term_1);
+			}
+			else{
+				term_1_converted=getClassName(term_1);
+			}
+			DVariables temp = variables.getClassByName(term_1_converted);
+			variables.getClassByName(term_0_converted).getAttributesByName("name").setCompareTo(temp.getLabel());
+			variables.getClassByName(term_0_converted).getAttributesByName("name").setCompareType("==");
+			
 		}
 		return super.visitPola_DT_2(ctx);
 		//return getClassName(term0);
@@ -453,7 +478,7 @@ public class MyCarrentalnewVisitor extends CarrentalnewBaseVisitor<String> {
 	@Override
 	public String visitDT_NOUN(DT_NOUNContext ctx) {
 		// TODO Auto-generated method stub
-		System.out.println("CHK_3");
+		//System.out.println("CHK_3");
 		return ctx.getText().toString();
 	}
 	
