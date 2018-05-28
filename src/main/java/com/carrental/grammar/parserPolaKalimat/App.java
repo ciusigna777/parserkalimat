@@ -31,7 +31,6 @@ public class App
 			wrapper.dvar.add(new DVariables(d));
 			wrapper.dvar.add(new DVariables(cc));
 			wrapper.dvar.add(new DVariables(oc));
-    		
 			
 			//wrapper.printAllVariables();
 			
@@ -50,13 +49,21 @@ public class App
 			
 			
 			visitor.visit(tree);
-			visitor.printWrapper();
 			
+			
+			
+			visitor.printWrapper();
+			//visitor.getVariables().getWhenStatementBasedOnModality();
 			
 			//System.out.println(tree.getText().toString());
 			//DVariablesWrapper vars = visitor.getVariables();
+			
+			/*
+			for(int i=0;i<vars.dvar.size();i++){
+				vars.dvar.get(i).printClassWithMethod();
+			}*/
+			
 			//vars.printAllVariables();
-			//System.out.println(visitor.getCodeResult());
 			
     	}
 		catch(Exception exc){

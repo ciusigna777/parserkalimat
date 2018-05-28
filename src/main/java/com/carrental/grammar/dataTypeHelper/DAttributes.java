@@ -1,5 +1,7 @@
 package com.carrental.grammar.dataTypeHelper;
 
+import java.util.ArrayList;
+
 public class DAttributes {
 	private String name;
 	private String label;
@@ -7,9 +9,11 @@ public class DAttributes {
 	private boolean writeToFile;
 	private String compareTo;
 	private String compareType;
+	private ArrayList<String>getterSetterMethod;
 	public DAttributes(){
 		writeToFile=false;
 		compareTo="none";
+		getterSetterMethod = new ArrayList<String>();
 	}
 	
 	public DAttributes(String name){
@@ -17,6 +21,7 @@ public class DAttributes {
 		//this.label="$"+name;
 		writeToFile=false;
 		compareTo="none";
+		getterSetterMethod = new ArrayList<String>();
 	}
 	
 	public String getCompareType() {
@@ -33,12 +38,20 @@ public class DAttributes {
 		this.type = type;
 		writeToFile=false;
 		compareTo="none";
+		getterSetterMethod = new ArrayList<String>();
 	}
 	public DAttributes(String name,String type,String label){
 		this.name=name;
 		this.type=type;
 		this.label="$"+label;
 		compareTo="none";
+		getterSetterMethod = new ArrayList<String>();
+	}
+	
+	public void printMethodName(){
+		for(int i=0;i<getterSetterMethod.size();i++){
+			System.out.println(getterSetterMethod.get(i).toString());
+		}
 	}
 	
 	public String getName() {
@@ -72,6 +85,15 @@ public class DAttributes {
 	public void setCompareTo(String compareTo) {
 		this.compareTo = compareTo;
 	}
+
+	public ArrayList<String> getGetterSetterMethod() {
+		return getterSetterMethod;
+	}
+
+	public void setGetterSetterMethod(ArrayList<String> getterSetterMethod) {
+		this.getterSetterMethod = getterSetterMethod;
+	}
+	
 	
 	
 	

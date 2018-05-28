@@ -141,23 +141,29 @@ public class MyCarrentalnewVisitor extends CarrentalnewBaseVisitor<String> {
 	public void printWrapper(){
 		
 		for(int i=0;i<variables.dvar.size();i++){
-			System.out.print(variables.dvar.get(i).getLabel()+": "+variables.dvar.get(i).className+"(");
 			
-			for(int j=0;j<variables.dvar.get(i).getAttributes().size();j++){
-				DAttributes temp = variables.dvar.get(i).getAttributes().get(j);
-				if(temp.getCompareTo().equalsIgnoreCase("none")){
-					System.out.print(temp.getLabel()+":"+temp.getName());
-				}
-				else{
-					System.out.print(temp.getName()+temp.getCompareType()+temp.getCompareTo());
+			if(variables.dvar.get(i).isWriteToFile()){
+				System.out.print(variables.dvar.get(i).getLabel()+": "+variables.dvar.get(i).className+"(");
+				for(int j=0;j<variables.dvar.get(i).getAttributes().size();j++){
+					DAttributes temp = variables.dvar.get(i).getAttributes().get(j);
+					if(temp.getCompareTo().equalsIgnoreCase("none")){
+						System.out.print(temp.getLabel()+":"+temp.getName());
+					}
+					else{
+						System.out.print(temp.getName()+temp.getCompareType()+temp.getCompareTo());
+					}
+					
+					if(j<variables.dvar.get(i).getAttributes().size()-1){
+						System.out.print(",");
+					}
 				}
 				
-				if(j<variables.dvar.get(i).getAttributes().size()-1){
-					System.out.print(",");
-				}
+				System.out.println(")");
+			}
+			else{
+				
 			}
 			
-			System.out.println(")");
 		}
 		/*
 		System.out.print(variables.dvar.get(idx).className+"(");
@@ -188,19 +194,22 @@ public class MyCarrentalnewVisitor extends CarrentalnewBaseVisitor<String> {
 	public String visitObligasi_1(Obligasi_1Context ctx) {
 		// TODO Auto-generated method stub
 		
-		codeResult="";
 		//System.out.println(ctx.modalobligasi().getText());
 		
 		if(ctx.modalobligasi().getText().toString().equalsIgnoreCase("it is obligatory that")){
 			//when negasi dari statement bernilai true, extract statement tersebut dari memori
-			codeResult+="when\n not";
-			addressHelper="OBLIGATION";
+			variables.setModality("obligation");
+			
+		}
+		else if (ctx.modalobligasi().getText().toString().equalsIgnoreCase("it is not obligatory that")){
+			variables.setModality("non-obligation");
 		}
 		else if (ctx.modalobligasi().getText().toString()=="it is prohibited that"){
+			variables.setModality("prohibition");
 			
 		}
 		else if (ctx.modalobligasi().getText().toString()=="it is impossible that"){
-			
+			variables.setModality("impossible");
 		}
 		return super.visitObligasi_1(ctx);
 		//return codeResult;
@@ -220,9 +229,7 @@ public class MyCarrentalnewVisitor extends CarrentalnewBaseVisitor<String> {
 		return super.visitIfthenelse_2(ctx);
 		
 	}
-	
-	
-	
+
 	@Override
 	public String visitPola_statement_1(Pola_statement_1Context ctx) {
 		// ex: it is obligatory that each operating company has at least one insurer
@@ -396,7 +403,7 @@ public class MyCarrentalnewVisitor extends CarrentalnewBaseVisitor<String> {
 		
 		return super.visitPola_DT_1(ctx);
 	}
-	private int angka=0;
+	
 	@Override
 	public String visitPola_DT_2(Pola_DT_2Context ctx) {
 		// TODO Auto-generated method stub
@@ -443,7 +450,7 @@ public class MyCarrentalnewVisitor extends CarrentalnewBaseVisitor<String> {
 			int idx2 = variables.isClassExist(term_0_converted);
 			variables.dvar.get(idx).getAttributesByName(term_0_converted).setCompareTo(variables.dvar.get(idx2).getLabel());
 			variables.dvar.get(idx).getAttributesByName(term_0_converted).setCompareType("==");
-;		}
+		}
 		else if(ctx.verb().getText().toString().equalsIgnoreCase("in the name of")){
 			//System.out.println("CHK_2");
 			//credit card that is in the name of the renter
@@ -467,7 +474,8 @@ public class MyCarrentalnewVisitor extends CarrentalnewBaseVisitor<String> {
 				term_1_converted=getClassName(term_1);
 			}
 			DVariables temp = variables.getClassByName(term_1_converted);
-			variables.getClassByName(term_0_converted).getAttributesByName("name").setCompareTo(temp.getLabel());
+			variables.getClassByName(term_0_converted).setWriteToFile(true);
+			variables.getClassByName(term_0_converted).getAttributesByName("name").setCompareTo(temp.getAttributesByName("name").getLabel());
 			variables.getClassByName(term_0_converted).getAttributesByName("name").setCompareType("==");
 			
 		}

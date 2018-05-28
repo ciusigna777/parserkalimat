@@ -19,11 +19,11 @@ public class DVariables {
 		this.attributes = new ArrayList<DAttributes>();
 		this.writeToFile=false;
 	}
+	
 	public DVariables(Object o){
 		this.attributes = new ArrayList<DAttributes>();
 		this.writeToFile=false;
-		generateFromClass(o);
-		
+		generateFromClass(o);	
 	}
 	
 	public int isAttributeExist(String attributeName){
@@ -74,11 +74,33 @@ public class DVariables {
 			String tempLabel = o.getClass().getSimpleName().toLowerCase()+o.getClass().getDeclaredFields()[i].getName();
 			DAttributes temp = new DAttributes(o.getClass().getDeclaredFields()[i].getName(),o.getClass().getDeclaredFields()[i].getType().getSimpleName(),tempLabel);
 			this.attributes.add(temp);
+			
+			for(int j=0;j<o.getClass().getDeclaredMethods().length;j++){
+				if(o.getClass().getDeclaredMethods()[j].getName().toLowerCase().contains(temp.getName().toLowerCase())){
+					temp.getGetterSetterMethod().add(o.getClass().getDeclaredMethods()[j].getName());
+				}
+			}
+			
 			/*
 			System.out.println("attr name: "+o.getClass().getDeclaredFields()[i].getName());
 			System.out.println("attr type: "+o.getClass().getDeclaredFields()[i].getType().getSimpleName());*/
 		}
 		
+		
+		//testing methods
+		
+		//end testing methods
+	}
+	
+	public void printClassWithMethod(){
+		System.out.println("Class name: "+this.className);
+		System.out.println("Attributes: ");
+		for(int i=0;i<attributes.size();i++){
+			System.out.println(i+1+". "+attributes.get(i).getName().toString());
+			System.out.print("getter setter : ");
+			attributes.get(i).printMethodName();
+		}
+		System.out.println();
 		
 	}
 	
