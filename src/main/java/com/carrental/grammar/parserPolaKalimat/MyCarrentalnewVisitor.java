@@ -138,12 +138,12 @@ public class MyCarrentalnewVisitor extends CarrentalnewBaseVisitor<String> {
 		this.variables = wrapper;
 	}
 	
-	public void printWrapper(){
-		
+	public void printDroolsCode(){
+		System.out.println("when");
 		for(int i=0;i<variables.dvar.size();i++){
 			
 			if(variables.dvar.get(i).isWriteToFile()){
-				System.out.print(variables.dvar.get(i).getLabel()+": "+variables.dvar.get(i).className+"(");
+				System.out.print("\t"+variables.dvar.get(i).getLabel()+": "+variables.dvar.get(i).className+"(");
 				for(int j=0;j<variables.dvar.get(i).getAttributes().size();j++){
 					DAttributes temp = variables.dvar.get(i).getAttributes().get(j);
 					if(temp.getCompareTo().equalsIgnoreCase("none")){
@@ -163,24 +163,9 @@ public class MyCarrentalnewVisitor extends CarrentalnewBaseVisitor<String> {
 			else{
 				
 			}
-			
 		}
-		/*
-		System.out.print(variables.dvar.get(idx).className+"(");
-		for(int i=0;i<variables.dvar.get(idx).getAttributes().size();i++){
-			DAttributes temp = variables.dvar.get(idx).getAttributes().get(i);
-			if(temp.getCompareTo().equalsIgnoreCase("none")){
-				System.out.print(temp.getLabel()+":"+temp.getName());
-			}
-			else{
-				System.out.print(temp.getName()+"=="+temp.getCompareTo());
-			}
-			
-			if(i<variables.dvar.get(idx).getAttributes().size()-1){
-				System.out.print(",");
-			}
-		}
-		System.out.print(")");*/
+		System.out.println("then");
+		
 	}
 	//-----------------------------------------end helper-----------------------------------------------------------------------
 	

@@ -52,7 +52,7 @@ public class App
 			
 			
 			
-			visitor.printWrapper();
+			visitor.printDroolsCode();
 			//visitor.getVariables().getWhenStatementBasedOnModality();
 			
 			//System.out.println(tree.getText().toString());
