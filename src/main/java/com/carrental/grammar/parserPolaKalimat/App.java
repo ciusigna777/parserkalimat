@@ -63,8 +63,6 @@ public class App
 				vars.dvar.get(i).printClassWithMethod();
 			}*/
 			
-			//vars.printAllVariables();
-			
     	}
 		catch(Exception exc){
 			exc.printStackTrace();
